@@ -2,8 +2,7 @@ package com.shop.domain;
 
 import java.sql.Date;
 
-public class GoodsVO {
-
+public class GoodsViewVO {
 	private int gdsNum;      //상품번호
 	private String gdsName;  //상품이름
 	private String cateCode; //카테고리
@@ -13,7 +12,10 @@ public class GoodsVO {
 	private String gdsImg;   //이미지
 	private Date gdsDate;    //등록날짜
 	
-	private String gdsThumbImg; //썸네일 저장
+	private String cateCodeRef; //코드분류
+	private String cateName;    //카테고리 이름
+	
+	private String gdsThumbImg;
 	
 	public String getGdsThumbImg() {
 		return gdsThumbImg;
@@ -68,5 +70,17 @@ public class GoodsVO {
 	}
 	public void setGdsDate(Date gdsDate) {
 		this.gdsDate = gdsDate;
+	}
+	public String getCateCodeRef() {
+		return cateCodeRef;
+	}
+	public void setCateCodeRef(String cateCodeRef) {
+		this.cateCodeRef = cateCodeRef;
+	}
+	public String getCateName() {
+		return cateName;
+	}
+	public void setCateName(String cateName) {
+		this.cateName = cateName;
 	}
 }

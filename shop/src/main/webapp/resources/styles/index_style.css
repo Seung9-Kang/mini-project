@@ -99,6 +99,19 @@ textarea#gdsDes {
 	height: 180px;
 }
 
+.select_img img {
+	margin: 20px 0;
+}
+
+.oriImg {
+	width: 500px;
+	height: auto;
+}
+
+.thumbImg {
+	
+}
+
 #container_box table td {
 	width: 100px;
 }
