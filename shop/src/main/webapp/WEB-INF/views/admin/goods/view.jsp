@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,40 +40,36 @@
 
 				<div class="inputArea">   
 				   <label>1차 분류</label>
-				   <select class="category1">
-				    <option value="">전체</option>
-				   </select>
-				
+				   <span class="category1">           
 				   <label>2차 분류</label>
-				   <select class="category2" name="cateCode">
-				    <option value="">전체</option>
-				   </select>
+				   <span class="category2">${goods.cateCode} 
 				</div>
 				
 				<div class="inputArea">
-					<label for="gdsName">상품명</label>
-					<input type="text" id="gdsName" name="gdsName" />
+				   <label for="gdsName">상품명</label>
+				   <span>${goods.gdsName} 
 				</div>
 				
 				<div class="inputArea">
-					<label for="gdsPrice">상품가격</label>
-					<input type="text" id="gdsPrice" name="gdsPrice" />
+				   <label for="gdsPrice">상품가격</label>
+				   <span><fmt:formatNumber value="${goods.gdsPrice}" pattern="###,###,###"/> 
 				</div>
 				
 				<div class="inputArea">
-					<label for="gdsStock">상품수량</label>
-					<input type="text" id="gdsStock" name="gdsStock" />
+				   <label for="gdsStock">상품수량</label>
+				   <span>${goods.gdsStock} 
 				</div>
 				
 				<div class="inputArea">
-					<label for="gdsDes">상품소개</label>
-					<textarea rows="5" cols="50" id="gdsDes" name="gdsDes"></textarea>
+				   <label for="gdsDes">상품소개</label>
+				   <span>${goods.gdsDes} 
 				</div>
 				
 				<div class="inputArea">
-					<button type="submit" id="register_Btn" class="btn btn-primary">등록</button>
+				   <button type="button" id="register_Btn" class="btn btn-warning">수정</button>
+				   <button type="button" id="register_Btn" class="btn btn-danger">삭제</button>
 				</div>
-				
+			
 			</form>
 		</div>
 	</section>

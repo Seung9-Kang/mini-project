@@ -1,5 +1,5 @@
 body {
-	font-family: '맑은 고딕', verdana;
+	font-family: '留묒� 怨좊뵓', verdana;
 	padding: 0;
 	margin: 0;
 }
@@ -70,6 +70,37 @@ div#container_box {
 aside ul li {
 	text-align: center;
 	margin-bottom: 10px;
+}
+
+.inputArea {
+	margin: 10px 0;
+}
+
+select {
+	width: 100px;
+}
+
+label {
+	display: inline-block;
+	width: 70px;
+	padding: 5px;
+}
+
+label[for='gdsDes'] {
+	display: block;
+}
+
+input {
+	width: 150px;
+}
+
+textarea#gdsDes {
+	width: 400px;
+	height: 180px;
+}
+
+#container_box table td {
+	width: 100px;
 }
 
 footer#footer {
