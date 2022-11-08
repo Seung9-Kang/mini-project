@@ -160,7 +160,7 @@
       
       
       
-      <Context docBase="shop" path="/" reloadable="true" source="org.eclipse.jst.jee.server:shop"/><Context docBase="shop" path="/controller" reloadable="true" source="org.eclipse.jst.jee.server:shop"/></Host>
+      <Context docBase="shop" path="/" reloadable="true" source="org.eclipse.jst.jee.server:shop"/></Host>
     </Engine>
   </Service>
 </Server>

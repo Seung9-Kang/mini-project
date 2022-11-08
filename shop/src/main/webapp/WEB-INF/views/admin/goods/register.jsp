@@ -35,18 +35,66 @@
 		</aside>
 		<div id="container_box">
 			<h2>상품 등록</h2>
-			<form role="form" method="post" autocomplete="off">
+			<form role="form" method="post" autocomplete="off" enctype="multipart/form-data">
 
-				<label>1차 분류</label>
-				<select class="category1">
-					<option value="">전체</option>
-				</select>
+				<div class="inputArea">   
+				   <label>1차 분류</label>
+				   <select class="category1">
+				    <option value="">전체</option>
+				   </select>
 				
-				<label>2차 분류</label>
-				<select class="category2">
-					<option value="">전체</option>
-				</select>
-
+				   <label>2차 분류</label>
+				   <select class="category2" name="cateCode">
+				    <option value="">전체</option>
+				   </select>
+				</div>
+				
+				<div class="inputArea">
+					<label for="gdsName">상품명</label>
+					<input type="text" id="gdsName" name="gdsName" />
+				</div>
+				
+				<div class="inputArea">
+					<label for="gdsPrice">상품가격</label>
+					<input type="text" id="gdsPrice" name="gdsPrice" />
+				</div>
+				
+				<div class="inputArea">
+					<label for="gdsStock">상품수량</label>
+					<input type="text" id="gdsStock" name="gdsStock" />
+				</div>
+				
+				<div class="inputArea">
+					<label for="gdsDes">상품소개</label>
+					<textarea rows="5" cols="50" id="gdsDes" name="gdsDes"></textarea>
+				</div>
+				
+				<div class="inputArea">
+					<label for="gdsImg">이미지</label>
+					<input type="file" id="gdsImg" name="file" />
+					<div class="select_img"><img src="" /></div>
+					
+					<script>
+						$("#gdsImg").change(function(){
+							if(this.files && this.files[0]) {
+								var reader = new FileReader;
+								reader.onload = function(data) {
+									$(".select_img img").attr("src", data.target.result).width(500);          
+								}
+								reader.readAsDataURL(this.files[0]);
+							}
+						});
+					</script>
+					
+					<!-- 현재 프로젝트의 실제 경로를 표시 -->
+					<%=request.getRealPath("/") %>
+					
+				</div>
+				
+				<div class="inputArea">
+					<button type="submit" id="register_Btn" class="btn btn-primary">등록</button>
+				</div>
+				
 			</form>
 		</div>
 	</section>
@@ -116,7 +164,7 @@
 	   $("option:selected", this).each(function(){
 	    
 	    var selectVal = $(this).val();    
-	    cate2Select.append("<option value=''>전체</option>");
+	    cate2Select.append("<option value='" + selectVal + "'>전체</option>");
 	    
 	    for(var i = 0; i < cate2Arr.length; i++) {
 		    if(selectVal == cate2Arr[i].cateCodeRef) {

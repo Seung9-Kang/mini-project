@@ -66,8 +66,6 @@ public class MemberController {
 	 // 패스워드를 비교해서 동일하면 true, 그렇지않다면 false를 반환
 	 boolean passMatch = passEncoder.matches(vo.getUserPass(), login.getUserPass());
 	 
-	 System.out.println("@@@@@@@@@@@@@@"+passMatch);
-	 
 	 if(login != null && passMatch) {
 	  session.setAttribute("member", login);
 	 } else {

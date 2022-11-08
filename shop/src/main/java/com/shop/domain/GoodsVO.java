@@ -13,6 +13,14 @@ public class GoodsVO {
 	private String gdsImg;   //이미지
 	private Date gdsDate;    //등록날짜
 	
+	private String gdsThumbImg; //썸네일 저장
+	
+	public String getGdsThumbImg() {
+		return gdsThumbImg;
+	}
+	public void setGdsThumbImg(String gdsThumbImg) {
+		this.gdsThumbImg = gdsThumbImg;
+	}
 	public int getGdsNum() {
 		return gdsNum;
 	}
