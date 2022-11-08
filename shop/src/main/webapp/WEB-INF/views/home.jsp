@@ -3,6 +3,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
+
+<script src="/resources/jquery/jquery-3.6.1.min.js"></script>
+
+<link rel="stylesheet" href="/resources/bootstrap/bootstrap.min.css">
+<link rel="stylesheet" href="/resources/bootstrap/bootstrap-theme.min.css">
+<script src="/resources/bootstrap/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="/resources/styles/home_style.css">
+
 <title>s9shop</title>
 </head>
 <body>
@@ -20,7 +29,15 @@
 		</nav>
 
 		<section id="container">
-			<div id="container_box">본문 영역</div>
+			<div id="container_box">
+				<section id="content">
+					본문 영역
+				</section>
+				
+				<aside id="aside">
+				   <%@ include file="include/aside.jsp"%>
+				</aside>
+			</div>
 		</section>
 
 		<footer id="footer">

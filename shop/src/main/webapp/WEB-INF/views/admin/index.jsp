@@ -30,9 +30,9 @@
 		</nav>
 
 		<section id="container">
-		<aside>
-		   <%@ include file="include/aside.jsp"%>
-		</aside>
+			<aside>
+			   <%@ include file="include/aside.jsp"%>
+			</aside>
 			<div id="container_box">본문 영역</div>
 		</section>
 

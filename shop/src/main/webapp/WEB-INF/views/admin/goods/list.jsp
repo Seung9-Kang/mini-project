@@ -40,7 +40,7 @@
 			<table>
 				<thead>
 					<tr>
-						<th>번호</th>
+						<th>썸네일</th>
 						<th>이름</th>
 						<th>카테고리</th>
 						<th>가격</th>
@@ -52,10 +52,13 @@
 					 <c:forEach items="${list}" var="list">
 					<tr>
 						<td>
-						 	<a href="/admin/goods/view?n=${list.gdsNum}">${list.gdsNum}</a>
+							<img src="${list.gdsThumbImg}">
 						</td>
-						<td>${list.gdsName}</td>
-						<td>${list.cateCode}</td>
+						<td>
+						 	<a href="/admin/goods/view?n=${list.gdsNum}">${list.gdsName}</a>
+						</td>
+						<td>${list.cateName}</td>
+<%-- 						<td>${list.cateCode}</td> --%>
 						<td>
 							<fmt:formatNumber value="${list.gdsPrice}" pattern="###,###,###"/>
 						</td>
