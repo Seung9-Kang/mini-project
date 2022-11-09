@@ -3,6 +3,7 @@ package com.shop.controller;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.shop.domain.GoodsViewVO;
+import com.shop.domain.MemberVO;
+import com.shop.domain.ReplyListVO;
+import com.shop.domain.ReplyVO;
 import com.shop.service.ShopService;
 
 @Controller
@@ -35,5 +39,30 @@ public class ShopController {
 		list = service.list(cateCode, level);
 		
 		model.addAttribute("list", list);
+	}
+	
+	//상품조회
+	@RequestMapping(value = "/view", method = RequestMethod.GET)
+	public void getView(@RequestParam("n") int gdsNum, Model model) throws Exception {
+		logger.info("get view");
+		
+		GoodsViewVO view = service.goodsView(gdsNum);
+		model.addAttribute("view", view);
+		
+		List<ReplyListVO> reply = service.replyList(gdsNum);
+		model.addAttribute("reply", reply);
+	}
+	
+	// 상품 조회 - 소감(댓글) 작성
+	@RequestMapping(value = "/view", method = RequestMethod.POST)
+	public String registReply(ReplyVO reply, HttpSession session) throws Exception {
+		logger.info("regist reply");
+
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		reply.setUserId(member.getUserId());
+
+		service.registReply(reply);
+
+		return "redirect:/shop/view?n=" + reply.getGdsNum();
 	}
 }

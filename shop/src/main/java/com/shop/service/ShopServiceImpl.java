@@ -8,6 +8,8 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
 import com.shop.domain.GoodsViewVO;
+import com.shop.domain.ReplyListVO;
+import com.shop.domain.ReplyVO;
 import com.shop.persistence.ShopDAO;
 
 @Service
@@ -31,5 +33,23 @@ public class ShopServiceImpl implements ShopService{
 			
 		} 
 			return dao.list(cateCode);
+	}
+
+	//상품조회
+	@Override
+	public GoodsViewVO goodsView(int gdsNum) throws Exception {
+		return dao.goodsView(gdsNum);
+	}
+
+	//상품댓글
+	@Override
+	public void registReply(ReplyVO reply) throws Exception {
+		dao.registReply(reply);
+	}
+	
+	//상품댓글리스트
+	@Override
+	public List<ReplyListVO> replyList(int gdsNum) throws Exception {
+		return dao.replyList(gdsNum);
 	}
 }
