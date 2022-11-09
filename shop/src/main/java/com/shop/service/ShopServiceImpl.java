@@ -52,4 +52,14 @@ public class ShopServiceImpl implements ShopService{
 	public List<ReplyListVO> replyList(int gdsNum) throws Exception {
 		return dao.replyList(gdsNum);
 	}
+
+	@Override
+	public void deleteReply(ReplyVO reply) throws Exception {
+		dao.deleteReply(reply);
+	}
+
+	@Override
+	public String idCheck(int repNum) throws Exception {
+		return dao.idCheck(repNum);
+	}
 }

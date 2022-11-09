@@ -40,7 +40,43 @@
 	section.replyList div.userInfo .userName { font-size:24px; font-weight:bold; }
 	section.replyList div.userInfo .date { color:#999; display:inline-block; margin-left:10px; }
 	section.replyList div.replyContent { padding:10px; margin:20px 0; }
+	
+	section.replyList div.replyFooter button { font-size:14px; border: 1px solid #999; background:none; margin-right:10px; }
 </style>
+
+	<script>   
+	function replyList() {
+		
+		var gdsNum = ${view.gdsNum};
+		$.getJSON("/shop/view/replyList" + "?n=" + gdsNum, function(data){
+			var str = "";
+		 
+			$(data).each(function(){
+		  
+				console.log(data);
+				  
+				var repDate = new Date(this.repDate);
+				repDate = repDate.toLocaleDateString("ko-US")
+				  
+				str += "<li data-gdsNum='" + this.gdsNum + "'>"
+					+ "<div class='userInfo'>"
+					+ "<span class='userName'>" + this.userName + " "
+					+ "<span class='date'>" + repDate + " "
+					+ "</div>"
+					+ "<div class='replyContent'>" + this.repCon + "</div>"
+					
+					 + "<div class='replyFooter'>"
+					 + "<button type='button' class='modify' data-repNum='" + this.repNum + "'>M</button>"
+					 + "<button type='button' class='delete' data-repNum='" + this.repNum + "'>D</button>"
+					 + "</div>"
+					
+					+ "</li>";             
+			});
+		 
+			$("section.replyList ol").html(str);
+		});
+	}
+	</script>
 
 <title>s9shop</title>
 </head>
@@ -142,14 +178,38 @@
 								<form role="form" method="post" autocomplete="off">
 									
 									<!-- 상품번호를 컨트롤러에 전달 -->
-									<input type="hidden" name="gdsNum" value="${view.gdsNum}">
+									<input type="hidden" name="gdsNum" id="gdsNum" value="${view.gdsNum}">
 									
 									<div class="input_area">
 										<textarea name="repCon" id="repCon"></textarea>
 									</div>
 
 									<div class="input_area">
-										<button type="submit" id="reply_btn">소감 남기기</button>
+										<button type="button" id="reply_btn">소감 남기기</button>
+
+										<script>
+											$("#reply_btn").click(function(){
+											
+												var formObj = $(".replyForm form[role='form']");
+												var gdsNum = $("#gdsNum").val();
+												var repCon = $("#repCon").val()
+												
+												var data = {
+													gdsNum : gdsNum,
+													repCon : repCon
+												};
+												 
+												$.ajax({
+													url : "/shop/view/registReply",
+													type : "post",
+													data : data,
+													success : function(){
+														replyList();
+														$("#repCon").val("");
+													}
+												});
+											});
+										</script>
 									</div>
 
 								</form>
@@ -158,7 +218,7 @@
 
 						<section class="replyList">
 							<ol>
-								<c:forEach items="${reply}" var="reply">
+								<%-- <c:forEach items="${reply}" var="reply">
 
 									<li>
 										<div class="userInfo">
@@ -168,8 +228,40 @@
 										</div>
 										<div class="replyContent">${reply.repCon}</div>
 									</li>
-								</c:forEach>
+								</c:forEach> --%>
 							</ol>
+							<script>
+								replyList();
+							</script>
+							
+							<script>
+								$(document).on("click", ".delete", function(){
+									
+									var deletConfirm = confirm("정말로 삭제하시겠습니까?");
+									
+									if(deletConfirm) {
+								 
+										var data = {repNum : $(this).attr("data-repNum")};
+										  
+										$.ajax({
+											url : "/shop/view/deleteReply",
+											type : "post",
+											data : data,
+											success : function(result){
+												if (result == 1) {
+													replyList();
+												} else {
+													alert("작성자 본인만 할 수 있습니다.")
+												}
+											},
+											error : function() {
+												alert("로그인 하셔야 합니다.")
+											}
+										});
+									}
+								});
+							</script>
+
 						</section>
 
 					</div>
