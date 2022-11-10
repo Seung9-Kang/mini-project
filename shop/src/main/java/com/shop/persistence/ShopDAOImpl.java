@@ -8,7 +8,12 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.shop.domain.CartListVO;
+import com.shop.domain.CartVO;
 import com.shop.domain.GoodsViewVO;
+import com.shop.domain.OrderDetailVO;
+import com.shop.domain.OrderListVO;
+import com.shop.domain.OrderVO;
 import com.shop.domain.ReplyListVO;
 import com.shop.domain.ReplyVO;
 
@@ -63,11 +68,65 @@ public class ShopDAOImpl implements ShopDAO {
 	public void deleteReply(ReplyVO reply) throws Exception {
 		sql.delete(namespace + ".deleteReply", reply);
 	}
-
+	
+	//아이디 체크
 	@Override
 	public String idCheck(int repNum) throws Exception {
 		return sql.selectOne(namespace + ".replyUserIdCheck", repNum);
 	}
 
+	//상품 댓글 수정
+	@Override
+	public void modifyReply(ReplyVO reply) throws Exception {
+		sql.update(namespace + ".modifyReply", reply);
+	}
+	
+	//카트담기
+	@Override
+	public void addCart(CartVO cart) throws Exception {
+		sql.insert(namespace + ".addCart", cart);
+	}
+	
+	//카트리스트
+	@Override
+	public List<CartListVO> cartList(String userId) throws Exception {
+		return sql.selectList(namespace + ".cartList", userId);
+	}
+
+	//카트삭제
+	@Override
+	public void deleteCart(CartVO cart) throws Exception {
+		sql.delete(namespace + ".deleteCart", cart);
+	}
+
+	//주문정보
+	@Override
+	public void orderInfo(OrderVO order) throws Exception {
+		sql.insert(namespace + ".orderInfo", order);
+	}
+
+	//주문상세정보
+	@Override
+	public void orderInfo_Details(OrderDetailVO orderDetail) throws Exception {
+		sql.insert(namespace + ".orderInfo_Details", orderDetail);
+	}
+
+	
+	//카트비우기
+	@Override
+	public void cartAllDelete(String userId) throws Exception {
+		sql.delete(namespace + ".cartAllDelete", userId);
+	}
+
+	//주문목록
+	@Override
+	public List<OrderVO> orderList(OrderVO order) throws Exception {
+		return sql.selectList(namespace + ".orderList", order);
+	}
+
+	@Override
+	public List<OrderListVO> orderView(OrderVO order) throws Exception {
+		return sql.selectList(namespace + ".orderView", order);
+	}
 
 }

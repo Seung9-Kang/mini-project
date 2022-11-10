@@ -44,6 +44,15 @@
 	section.replyList div.replyFooter button { font-size:14px; border: 1px solid #999; background:none; margin-right:10px; }
 </style>
 
+<style>
+	div.replyModal { position:relative; z-index:1; display: none;}
+	div.modalBackground { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0, 0, 0, 0.8); z-index:-1; }
+	div.modalContent { position:fixed; top:20%; left:calc(50% - 250px); width:500px; height:250px; padding:20px 10px; background:#fff; border:2px solid #666; }
+	div.modalContent textarea { font-size:16px; font-family:'맑은 고딕', verdana; padding:10px; width:500px; height:200px; }
+	div.modalContent button { font-size:20px; padding:5px 10px; margin:10px 0; background:#fff; border:1px solid #ccc; }
+	div.modalContent button.modal_cancel { margin-left:20px; }
+</style>
+
 	<script>   
 	function replyList() {
 		
@@ -58,20 +67,24 @@
 				var repDate = new Date(this.repDate);
 				repDate = repDate.toLocaleDateString("ko-US")
 				  
-				str += "<li data-gdsNum='" + this.gdsNum + "'>"
-					+ "<div class='userInfo'>"
-					+ "<span class='userName'>" + this.userName + " "
-					+ "<span class='date'>" + repDate + " "
-					+ "</div>"
-					+ "<div class='replyContent'>" + this.repCon + "</div>"
-					
-					 + "<div class='replyFooter'>"
-					 + "<button type='button' class='modify' data-repNum='" + this.repNum + "'>M</button>"
-					 + "<button type='button' class='delete' data-repNum='" + this.repNum + "'>D</button>"
-					 + "</div>"
-					
-					+ "</li>";             
-			});
+				str += "<li data-repNum='" + this.repNum + "'>" //"<li data-gdsNum='" + this.gdsNum + "'>"
+				    + "<div class='userInfo'>"
+				    + "<span class='userName'>" + this.userName + " "
+				    + "<span class='date'>" + repDate + " "
+				    + "</div>"
+				    + "<div class='replyContent'>" + this.repCon + "</div>"
+				   
+				    + "<c:if test='${member != null}'>"
+				   
+				    + "<div class='replyFooter'>"
+				    + "<button type='button' class='modify' data-repNum='" + this.repNum + "'>M</button>"
+				    + "<button type='button' class='delete' data-repNum='" + this.repNum + "'>D</button>"
+				    + "</div>"
+				   
+				    + "</c:if>"
+				   
+				    + "</li>";              
+				});
 		 
 			$("section.replyList ol").html(str);
 		});
@@ -116,22 +129,24 @@
 							</p>
 
 							<p class="gdsPrice">
-								<span>가격</span> <fmt:formatNumber pattern="###,###,###"
-										value="${view.gdsPrice}" /> 원 
+								<span>가격</span>
+								<fmt:formatNumber pattern="###,###,###" value="${view.gdsPrice}" />
+								원
 							</p>
 
 							<p class="gdsStock">
-								<span>재고</span> <fmt:formatNumber pattern="###,###,###"
-										value="${view.gdsStock}" /> EA 
+								<span>재고</span>
+								<fmt:formatNumber pattern="###,###,###" value="${view.gdsStock}" />
+								EA
 							</p>
 
 							<p class="cartStock">
 								<span>구입 수량</span>
-									<button type="button" class="plus">+</button>
-									<input type="number" class="numBox" min="1" max="${view.gdsStock}"
-									value="1" readonly="readonly" />
-									<button type="button" class="minus">-</button>
-									<script>
+								<button type="button" class="plus">+</button>
+								<input type="number" class="numBox" min="1"
+									max="${view.gdsStock}" value="1" readonly="readonly" />
+								<button type="button" class="minus">-</button>
+								<script>
 										$(".plus").click(function(){
 											var num = $(".numBox").val();
 											var plusNum = Number(num) + 1;
@@ -157,13 +172,43 @@
 							</p>
 
 							<p class="addToCart">
-								<button type="button">카트에 담기</button>
+								<button type="button" class="addCart_btn">카트에 담기</button>
+
+								<script>
+									$(".addCart_btn").click(function(){
+										var gdsNum = $("#gdsNum").val();
+										var cartStock = $(".numBox").val();
+										   
+										var data = {
+											gdsNum : gdsNum,
+											cartStock : cartStock
+										};
+										 
+										$.ajax({
+											url : "/shop/view/addCart",
+											type : "post",
+											data : data,
+											success : function(result){
+												if (result == 1) {
+													alert("카트 담기 성공");
+													$(".numBox").val("1");
+												} else {
+													alert("회원만 사용할 수 있습니다.");
+													$(".numBox").val("1");
+												}
+											},
+											error : function(){
+												alert("카트 담기 실패");
+											}
+										});
+									});
+								</script>
 							</p>
 						</div>
 
 						<div class="gdsDes">${view.gdsDes}</div>
 					</div>
-					
+
 					<!-- 댓글 폼 -->
 					<div id="reply">
 
@@ -176,10 +221,11 @@
 						<c:if test="${member != null}">
 							<section class="replyForm">
 								<form role="form" method="post" autocomplete="off">
-									
+
 									<!-- 상품번호를 컨트롤러에 전달 -->
-									<input type="hidden" name="gdsNum" id="gdsNum" value="${view.gdsNum}">
-									
+									<input type="hidden" name="gdsNum" id="gdsNum"
+										value="${view.gdsNum}">
+
 									<div class="input_area">
 										<textarea name="repCon" id="repCon"></textarea>
 									</div>
@@ -233,8 +279,26 @@
 							<script>
 								replyList();
 							</script>
-							
+
 							<script>
+							
+								$(document).on("click", ".modify", function(){
+// 									$(".replyModal").attr("style", "display:block;");
+									$(".replyModal").fadeIn(200);
+									
+									$(document).on("click", ".modify", function(){
+									    //$(".replyModal").attr("style", "display:block;");
+									    $(".replyModal").fadeIn(200);
+									   
+									    var repNum = $(this).attr("data-repNum");
+									    var repCon = $(this).parent().parent().children(".replyContent").text();
+									   
+									    $(".modal_repCon").val(repCon);
+									    $(".modal_modify_btn").attr("data-repNum", repNum);
+									   
+									 });
+								});
+								
 								$(document).on("click", ".delete", function(){
 									
 									var deletConfirm = confirm("정말로 삭제하시겠습니까?");
@@ -266,9 +330,9 @@
 
 					</div>
 				</section>
-				
+
 				<aside id="aside">
-				   <%@ include file="../include/aside.jsp"%>
+					<%@ include file="../include/aside.jsp"%>
 				</aside>
 			</div>
 		</section>
@@ -279,5 +343,61 @@
 			</div>
 		</footer>
 	</div>
+
+	<div class="replyModal">
+
+		<div class="modalContent">
+
+			<div>
+				<textarea class="modal_repCon" name="modal_repCon"></textarea>
+			</div>
+
+			<div>
+				<button type="button" class="modal_modify_btn">수정</button>
+				<button type="button" class="modal_cancel">취소</button>
+			</div>
+
+		</div>
+
+		<div class="modalBackground"></div>
+
+	</div>
+	
+	<script>
+		$(".modal_modify_btn").click(function(){
+			var modifyConfirm = confirm("정말로 수정하시겠습니까?");
+			   
+			if(modifyConfirm) {
+				var data = {
+				repNum : $(this).attr("data-repNum"),
+				repCon : $(".modal_repCon").val()
+			};  // ReplyVO 형태로 데이터 생성
+			 
+			$.ajax({
+			url : "/shop/view/modifyReply",
+				type : "post",
+				data : data,
+				success : function(result){
+				   
+					if(result == 1) {
+						replyList();
+						$(".replyModal").fadeOut(200);
+					} else {
+						alert("작성자 본인만 할 수 있습니다.");         
+					}
+				},
+				error : function(){
+					alert("로그인하셔야합니다.")
+				}
+			});
+			}
+		   
+		});
+		
+		$(".modal_cancel").click(function(){
+			/* $(".replyModal").attr("style", "display:none;"); */
+			$(".replyModal").fadeOut(200);
+		});
+	</script>
 </body>
 </html>
