@@ -117,7 +117,7 @@
 	<select id="orderList" resultType="com.shop.domain.OrderVO">
 		select
 		orderId, userId, orderRec, userAddr1, userAddr2, userAddr3, orderPhon, amount,
-		orderDate
+		orderDate, delivery 
 		from tbl_order
 		where userId = #{userId}
 	</select>
@@ -126,7 +126,7 @@
 	<select id="orderView" resultType="com.shop.domain.OrderListVO">
 		select
 		o.orderId, o.userId, o.orderRec, o.userAddr1, o.userAddr2, o.userAddr3,
-		o.orderPhon, o.amount, o.orderDate,
+		o.orderPhon, o.amount, o.orderDate, o.delivery, 
 		d.orderDetailsNum, d.gdsNum, d.cartStock,
 		g.gdsName, g.gdsThumbImg, g.gdsPrice
 		from tbl_order o

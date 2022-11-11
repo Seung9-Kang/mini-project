@@ -12,6 +12,7 @@ public class OrderListVO {
 	private String orderPhon;//연락처
 	private int amount;      //총가격
 	private Date orderDate;  //주문날짜
+	private String delivery;
 	
 	private int orderDetailsNum; //주문상세번호
 	private int gdsNum;          //상품번호
@@ -20,6 +21,13 @@ public class OrderListVO {
 	private String gdsName;
 	private String gdsThumbImg;
 	private int gdsPrice;
+	
+	public String getDelivery() {
+		return delivery;
+	}
+	public void setDelivery(String delivery) {
+		this.delivery = delivery;
+	}
 	public String getOrderId() {
 		return orderId;
 	}
