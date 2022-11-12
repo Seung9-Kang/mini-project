@@ -27,6 +27,8 @@ import com.shop.domain.GoodsVO;
 import com.shop.domain.GoodsViewVO;
 import com.shop.domain.OrderListVO;
 import com.shop.domain.OrderVO;
+import com.shop.domain.ReplyListVO;
+import com.shop.domain.ReplyVO;
 import com.shop.service.AdminService;
 import com.shop.utils.UploadFileUtils;
 
@@ -253,8 +255,39 @@ public class AdminController {
 		logger.info("post order view");
 
 		adminService.delivery(order);
+		
+		//상품수량조절
+		List<OrderListVO> orderView = adminService.orderView(order);
+
+		GoodsVO goods = new GoodsVO();
+
+		for (OrderListVO i : orderView) {
+			goods.setGdsNum(i.getGdsNum());
+			goods.setGdsStock(i.getCartStock());
+			adminService.changeStock(goods);
+		}
 
 		return "redirect:/admin/shop/orderView?n=" + order.getOrderId();
 	}
 	
+	
+	// 모든 소감(댓글)
+	@RequestMapping(value = "/shop/allReply", method = RequestMethod.GET)
+	public void getAllReply(Model model) throws Exception {
+		logger.info("get all reply");
+
+		List<ReplyListVO> reply = adminService.allReply();
+
+		model.addAttribute("reply", reply);
+	}
+	
+	// 댓글 삭제
+	@RequestMapping(value = "/shop/allReply", method = RequestMethod.POST)
+	public String postAllReply(ReplyVO reply) throws Exception {
+		logger.info("post all reply");
+
+		adminService.deleteReply(reply.getRepNum());
+
+		return "redirect:/admin/shop/allReply";
+	}
 }	
