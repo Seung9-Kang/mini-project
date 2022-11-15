@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>FlexShope</title>
 
 <script src="/resources/jquery/jquery-3.6.1.min.js"></script>
 

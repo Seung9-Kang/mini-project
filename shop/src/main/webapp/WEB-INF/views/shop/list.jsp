@@ -12,31 +12,10 @@
 <script src="/resources/bootstrap/bootstrap.min.js"></script>
 
 <link rel="stylesheet" href="/resources/styles/home_style.css">
+<link rel="stylesheet" href="/resources/styles/list_style.css">
 
-<title>s9shop</title>
 
-
-<style>
-	section#content ul li {
-		display: inline-block;
-		margin: 10px;
-	}
-	
-	section#content div.goodsThumb img {
-		width: 200px;
-		height: 200px;
-	}
-	
-	section#content div.goodsName {
-		padding: 10px 0;
-		text-align: center;
-	}
-	
-	section#content div.goodsName a {
-		color: #000;
-	}
-</style>
-
+<title>FlexShop</title>
 
 </head>
 <body>

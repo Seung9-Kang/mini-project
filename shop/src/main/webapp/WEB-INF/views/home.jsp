@@ -12,7 +12,7 @@
 
 <link rel="stylesheet" href="/resources/styles/home_style.css">
 
-<title>s9shop</title>
+<title>FlexShop</title>
 </head>
 <body>
 	<div id="root">
@@ -31,7 +31,6 @@
 		<section id="container">
 			<div id="container_box">
 				<section id="content">
-					본문 영역
 				</section>
 				
 				<aside id="aside">

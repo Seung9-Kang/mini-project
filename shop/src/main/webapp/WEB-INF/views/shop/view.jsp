@@ -12,86 +12,54 @@
 <script src="/resources/bootstrap/bootstrap.min.js"></script>
 
 <link rel="stylesheet" href="/resources/styles/home_style.css">
+<link rel="stylesheet" href="/resources/styles/view_style.css">
 
-<style>
-	div.goods div.goodsImg { float:left; width:350px; }
-	div.goods div.goodsImg img { width:350px; height:auto; }
-	
-	div.goods div.goodsInfo { float:right; width:330px; font-size:22px; }
-	div.goods div.goodsInfo p { margin:0 0 20px 0; }
-	div.goods div.goodsInfo p span { display:inline-block; width:100px; margin-right:15px; } 
-	
-	div.goods div.goodsInfo p.cartStock input { font-size:22px; width:50px; padding:5px; margin:0; border:1px solid #eee; }
-	div.goods div.goodsInfo p.cartStock button { font-size:26px; border:none; background:none; } 
-	div.goods div.goodsInfo p.addToCart { text-align:right; }
-	div.goods div.goodsInfo p.addToCart button { font-size:22px; padding:5px 10px; border:1px solid #eee; background:#eee;}
-	div.goods div.gdsDes { font-size:18px; clear:both; padding-top:30px; }
-</style>
-<style>
-	section.replyForm { padding:30px 0; }
-	section.replyForm div.input_area { margin:10px 0; }
-	section.replyForm textarea { font-size:16px; font-family:'맑은 고딕', verdana; padding:10px; width:500px;; height:150px; }
-	section.replyForm button { font-size:20px; padding:5px 10px; margin:10px 0; background:#fff; border:1px solid #ccc; }
-	
-	section.replyList { padding:30px 0; }
-	section.replyList ol { padding:0; margin:0; }
-	section.replyList ol li { padding:10px 0; border-bottom:2px solid #eee; }
-	section.replyList div.userInfo { }
-	section.replyList div.userInfo .userName { font-size:24px; font-weight:bold; }
-	section.replyList div.userInfo .date { color:#999; display:inline-block; margin-left:10px; }
-	section.replyList div.replyContent { padding:10px; margin:20px 0; }
-	
-	section.replyList div.replyFooter button { font-size:14px; border: 1px solid #999; background:none; margin-right:10px; }
-</style>
 
-<style>
-	div.replyModal { position:relative; z-index:1; display: none;}
-	div.modalBackground { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0, 0, 0, 0.8); z-index:-1; }
-	div.modalContent { position:fixed; top:20%; left:calc(50% - 250px); width:500px; height:250px; padding:20px 10px; background:#fff; border:2px solid #666; }
-	div.modalContent textarea { font-size:16px; font-family:'맑은 고딕', verdana; padding:10px; width:500px; height:200px; }
-	div.modalContent button { font-size:20px; padding:5px 10px; margin:10px 0; background:#fff; border:1px solid #ccc; }
-	div.modalContent button.modal_cancel { margin-left:20px; }
-</style>
-
-	<script>   
+<script>   
 	function replyList() {
 		
 		var gdsNum = ${view.gdsNum};
+		
+		// 비동기식 데이터 요청
 		$.getJSON("/shop/view/replyList" + "?n=" + gdsNum, function(data){
 			var str = "";
-		 
+			
 			$(data).each(function(){
-		  
+				
 				console.log(data);
-				  
+				
+				// 날짜 데이터를 보기 쉽게 변환
 				var repDate = new Date(this.repDate);
 				repDate = repDate.toLocaleDateString("ko-US")
-				  
+								
+				// HTML코드 조립
 				str += "<li data-repNum='" + this.repNum + "'>" //"<li data-gdsNum='" + this.gdsNum + "'>"
-				    + "<div class='userInfo'>"
-				    + "<span class='userName'>" + this.userName + " "
-				    + "<span class='date'>" + repDate + " "
-				    + "</div>"
-				    + "<div class='replyContent'>" + this.repCon + "</div>"
-				   
-				    + "<c:if test='${member != null}'>"
-				   
-				    + "<div class='replyFooter'>"
-				    + "<button type='button' class='modify' data-repNum='" + this.repNum + "'>M</button>"
-				    + "<button type='button' class='delete' data-repNum='" + this.repNum + "'>D</button>"
-				    + "</div>"
-				   
-				    + "</c:if>"
-				   
-				    + "</li>";              
-				});
-		 
+					 + "<div class='userInfo'>"
+					 + "<span class='userName'>" + this.userName + "</span>"
+					 + "<span class='date'>" + repDate + "</span>"
+					 + "</div>"
+					 + "<div class='replyContent'>" + this.repCon + "</div>"
+					 
+					 + "<c:if test='${member != null}'>"
+					 
+					 + "<div class='replyFooter'>"
+					 + "<button type='button' class='modify' data-repNum='" + this.repNum + "'>M</button>"
+					 + "<button type='button' class='delete' data-repNum='" + this.repNum + "'>D</button>"
+					 + "</div>"
+					 
+					 + "</c:if>"
+					 
+					 + "</li>";											
+			});
+			
+			// 조립한 HTML코드를 추가
 			$("section.replyList ol").html(str);
 		});
+		
 	}
-	</script>
+</script>
 
-<title>s9shop</title>
+<title>FlexShop</title>
 </head>
 <body>
 	<div id="root">
@@ -121,11 +89,11 @@
 
 						<div class="goodsInfo">
 							<p class="gdsName">
-								<span>상품명 ${view.gdsName}</span>
+								<span>상품명</span> ${view.gdsName}
 							</p>
 
 							<p class="cateName">
-								<span>카테고리 ${view.cateName}</span>
+								<span>카테고리</span> ${view.cateName}
 							</p>
 
 							<p class="gdsPrice">

@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>S9shop Admin</title>
+<title>FlexShop 관리자페이지</title>
 
 <script src="/resources/jquery/jquery-3.6.1.min.js"></script>
 
@@ -33,7 +33,7 @@
 			<aside>
 			   <%@ include file="include/aside.jsp"%>
 			</aside>
-			<div id="container_box">본문 영역</div>
+			<div id="container_box"></div>
 		</section>
 
 		<footer id="footer">
